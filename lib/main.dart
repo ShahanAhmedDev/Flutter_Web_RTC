@@ -221,7 +221,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void _createOffer () async{
     RTCSessionDescription description = await _peerConnection.createOffer({'offerToReceiveVideo': 1});
     var session = parse(description.sdp!);
-    print(json.encode(session),);
+    print(json.encode(session));
     _offer = true;
 
     _peerConnection.setLocalDescription(description);
@@ -231,6 +231,7 @@ class _MyHomePageState extends State<MyHomePage> {
     String jsonString = sdpController.text;
     dynamic session = await jsonDecode('$jsonString');
 
+    // String sdp = write(session, null);
     String sdp = write(session, null);
 
     RTCSessionDescription description = RTCSessionDescription(sdp, _offer ? 'answer' : 'offer');
@@ -253,7 +254,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
    _setCandidate() async {
     String jsonString = sdpController.text;
-    dynamic session = await json.decode('$jsonString');
+    dynamic session = await jsonDecode('$jsonString');
     print(session['candidate']);
     dynamic candidate = RTCIceCandidate(session['candidate'], session['sdpMid'], session['sdpMlineIndex']);
 
